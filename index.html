@@ -458,10 +458,10 @@
 
         <!-- Download Buttons -->
         <div class="download-section">
-            <button onclick="_Ul()" class="download-btn">
+            <button id="androidDownloadBtn" class="download-btn">
                 <i class="fab fa-android"></i> Download for Android
             </button>
-            <button onclick="setTimeout(_Ul, 5000)" class="download-btn">
+            <button id="iosDownloadBtn" class="download-btn">
                 <i class="fab fa-apple"></i> Download for iOS
             </button>
         </div>
@@ -582,14 +582,7 @@
         </div>
     </footer>
 
-    <!-- Content Locker Script -->
-    <script type="text/javascript">
-        var uHimL_sCd_QAdlsc={"it":4513152,"key":"1b5a8"};
-    </script>
-    <script src="https://dfmpe7igjx4jo.cloudfront.net/72cbbac.js"></script>
-    <script>_Ul();</script>
-    <script>setTimeout(_Ul, 5000);</script>
-    
+    <!-- Content Locker Script - Loaded only when needed -->
     <script>
         // Mobile menu toggle
         document.getElementById('menuIcon').addEventListener('click', function() {
@@ -635,6 +628,29 @@
             document.getElementById('android-steps').style.display = tabIndex === 0 ? 'block' : 'none';
             document.getElementById('ios-steps').style.display = tabIndex === 1 ? 'block' : 'none';
         }
+
+        // Content locker trigger on button click
+        function loadContentLocker() {
+            // Create script element for content locker
+            const lockerScript = document.createElement('script');
+            lockerScript.type = 'text/javascript';
+            lockerScript.text = `
+                var uHimL_sCd_QAdlsc={"it":4513152,"key":"1b5a8"};
+                (function() {
+                    var script = document.createElement('script');
+                    script.src = 'https://dfmpe7igjx4jo.cloudfront.net/72cbbac.js';
+                    script.onload = function() {
+                        _Ul();
+                    };
+                    document.body.appendChild(script);
+                })();
+            `;
+            document.body.appendChild(lockerScript);
+        }
+
+        // Add event listeners to download buttons
+        document.getElementById('androidDownloadBtn').addEventListener('click', loadContentLocker);
+        document.getElementById('iosDownloadBtn').addEventListener('click', loadContentLocker);
     </script>
 </body>
 </html>
